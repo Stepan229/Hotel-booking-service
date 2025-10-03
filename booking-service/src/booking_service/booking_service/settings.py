@@ -12,6 +12,15 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 
+
+import os
+from dotenv import load_dotenv
+dotenv_path = os.path.join(Path(__file__).resolve().parents[3], '.env')
+
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -75,11 +84,11 @@ WSGI_APPLICATION = 'booking_service.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "db_booking_service",
-        "USER": "postgres",
-        "PASSWORD": "postgres",
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
+        "NAME": os.getenv('DB_NAME', 'db_booking_service'),
+        "USER": os.getenv('DB_USER', 'db_booking_service'),
+        "PASSWORD": os.getenv('DB_PASSWORD', 'postgres'),
+        "HOST": os.getenv('DB_HOST', 'db_booking_service'),
+        "PORT": os.getenv('DB_PORT', 'db_booking_service'),
     }
 }
 

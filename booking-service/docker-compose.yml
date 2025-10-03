@@ -1,0 +1,35 @@
+services:
+    messenger-app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "8000:8000"
+        # volumes:
+        #     -   ./app:/app
+        environment:
+            DB_HOST: database
+            DB_NAME: db_booking_service
+            DB_USER: postgres
+            DB_PASSWORD: 30062001
+            DB_PORT: 5432
+            
+        command:
+          #  sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+          #  sh -c "ls -a"
+          #  sh -c "ls app/"
+          #  sh -c "python app/booking_service/manage.py runserver"
+           sh -c "/app/.venv/bin/python /app/booking_service/manage.py migrate &&
+             /app/.venv/bin/python /app/booking_service/manage.py runserver 0.0.0.0:8000"
+            # sh -c "python manage.py migrate && daphne --verbosity 3 -b 0.0.0.0 -p 8000 social_network.asgi:application"
+        depends_on:
+            - database
+
+    database:
+        image: postgres:17.4-alpine
+        ports:
+            - "5434:5432"
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: 30062001
+            POSTGRES_DB: db_booking_service
