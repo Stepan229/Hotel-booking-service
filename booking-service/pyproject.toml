@@ -1,0 +1,22 @@
+[project]
+name = "booking-service"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "daughted"}
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "django (>=5.2.7,<6.0.0)",
+    "djangorestframework (>=3.16.1,<4.0.0)",
+    "markdown (>=3.9,<4.0)",
+    "django-filter (>=25.1,<26.0)"
+]
+
+[tool.poetry]
+packages = [{include = "booking_service", from = "src"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
