@@ -16,6 +16,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 dotenv_path = os.path.join(Path(__file__).resolve().parents[3], '.env')
+print(dotenv_path, 'aAAAAAAAAAAAAAAAAAA')
 
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
@@ -46,6 +47,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+
+    'booking_service',
+    'stay_manager',
 ]
 
 MIDDLEWARE = [

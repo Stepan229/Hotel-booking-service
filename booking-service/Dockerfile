@@ -13,6 +13,8 @@ RUN python -m pip install --no-cache-dir poetry==2.2.1 \
 
 FROM python:3.13-alpine3.21
 
+
 COPY --from=builder /app /app
 
-COPY /src ./
+COPY /src /app
+
