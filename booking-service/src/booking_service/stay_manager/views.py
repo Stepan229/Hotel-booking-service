@@ -10,7 +10,7 @@ from . import serializers
 
 
 # Create your views here.
-class RoomViews(viewsets.GenericViewSet):
+class RoomViewsSet(viewsets.GenericViewSet):
     queryset = RoomCatalog.objects.all()
 
     permission_classes = [AllowAny, ]
@@ -18,26 +18,70 @@ class RoomViews(viewsets.GenericViewSet):
     # pagination_class = PageNumberPagination
 
     def get_queryset(self):
-        print()
+        hotel_id = self.kwargs.get('hotel_id', None)
+        queryset = super().get_queryset()
 
+        if hotel_id and hotel_id is not None:
+            hotel_id = int(hotel_id)
+            try:
+                hotel = HotelCatalog.objects.get(id=hotel_id)
+                return queryset.filter(hotel=hotel)
+            except HotelCatalog.DoesNotExist:
+                return RoomCatalog.objects.none()
+        return queryset
 
     def list(self, request, *args, **kwargs):
-        print('HOTEL ', request.data)
-        id_hotel = int(self.kwargs.get('hotel_id'))
-        rooms = HotelCatalog.objects.filter(hotel=id_hotel)
+        rooms = self.get_queryset()
         serializer = self.get_serializer(rooms, many=True)
-        print(serializer.data, 'HOTEL ')
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     @action(methods=['POST', ], detail=False)
-    def create(self, request):
-        data = dict(request.data)
-        del data['csrfmiddlewaretoken']
-        print(data)
-        queryset = RoomCatalog.objects.all()
-        serializer = self.get_serializer(data=[data], many=True)
+    def create_room(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        print(serializer.validated_data, 'HOTEL ')
-        return Response(serializer.validated_data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data['id'], status=status.HTTP_201_CREATED)
+
+
+    @action(methods=['Delete', ], detail=False)
+    def delete_room(self, request):
+        queryset = self.get_queryset()
+        try:
+            room = queryset.get(id=request.data['id'])
+            room.delete()
+        except RoomCatalog.DoesNotExist:
+            return Response(f"Room number {request.data['id']} was not found",
+                            status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_205_RESET_CONTENT)
+    
+class BookingRoomViewsSet(viewsets.GenericViewSet):
+    queryset = RoomBooking.objects.all()
+
+    permission_classes = [AllowAny, ]
+    serializer_class = serializers.RoomSerializer
+
+    def list(self, request, *args, **kwargs):
+        room = self.kwargs.get('room_id',)
+        room_reservations = self.get_queryset().filter(room=room)
+        serializer = self.get_serializer(room_reservations, many=True)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    @action(methods=['POST', ], detail=False)
+    def create_room(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data['id'], status=status.HTTP_201_CREATED)
+
+
+    @action(methods=['Delete', ], detail=False)
+    def delete_room(self, request):
+        queryset = self.get_queryset()
+        try:
+            room = queryset.get(id=request.data['id'])
+            room.delete()
+        except RoomCatalog.DoesNotExist:
+            return Response(f"Room number {request.data['id']} was not found",
+                            status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_205_RESET_CONTENT)
         
