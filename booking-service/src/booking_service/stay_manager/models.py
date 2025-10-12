@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 
 class HotelCatalog(models.Model):
     name_hotel = models.CharField(max_length=70)

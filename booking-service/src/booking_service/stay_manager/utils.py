@@ -1,4 +1,3 @@
-from rest_framework.response import Response
 
 def sorted_by_field(queryset, possible_fields_name, field_name):
     """
@@ -11,16 +10,6 @@ def sorted_by_field(queryset, possible_fields_name, field_name):
         raise ValueError(f"Sorting by {field_name} is not allowed. Use {possible_fields_name} fields.")
     return queryset.order_by(field_name)
 
-def delete_room(queryset, room_id):
-    """
-    Deletes a room with the specified ID from the given queryset.
-    Args:
-        queryset: A Django QuerySet containing room objects.
-        room_id (int): The ID of the room to be deleted.
-    Returns:
-        bool: True if the room was successfully deleted, False if the room does not exist.
-    """
-    return delete_entity_by_id(queryset, room_id)
 
 def delete_entity_by_id(queryset, entity_id):
     """

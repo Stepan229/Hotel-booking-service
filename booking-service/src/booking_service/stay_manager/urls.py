@@ -1,7 +1,6 @@
 from django.urls import path
-from rest_framework.routers import DefaultRouter
 
-from .views import *
+from .views import RoomViewSet, BookingRoomViewSet
 
 urlpatterns = [
      path("hotels/<int:hotel_id>/rooms/", RoomViewSet.as_view({'get': 'list'}),

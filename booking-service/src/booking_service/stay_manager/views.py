@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework import status, viewsets
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import action
@@ -7,10 +6,10 @@ from rest_framework.response import Response
 from .models import HotelCatalog, RoomCatalog, RoomBooking
 from . import serializers
 from .utils import sorted_by_field, delete_entity_by_id 
-# import .serializers
 
 
-# Create your views here.
+
+
 class RoomViewSet(viewsets.GenericViewSet):
     queryset = RoomCatalog.objects.all()
 
