@@ -1,0 +1,28 @@
+name: Simple CI
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+        cache: 'poetry'
+    
+    - name: Install Poetry
+      run: pip install poetry
+    
+    - name: Install dependencies
+      run: poetry install
+    
+    - name: Run Ruff
+      run: poetry run ruff check .
+    
+    - name: Run tests
+      run: poetry run python manage.py test
