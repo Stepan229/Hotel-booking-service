@@ -6,7 +6,7 @@ from .views import *
 urlpatterns = [
      path("hotels/<int:hotel_id>/rooms/", RoomViewSet.as_view({'get': 'list'}),
                                                   name='hotel-list-rooms'),
-     path("rooms/", RoomViewSet.as_view({'post': 'create_room'}),
+     path("rooms/create/", RoomViewSet.as_view({'post': 'create_room'}),
                                                   name='hotel-rooms'),
      path("rooms/<int:pk>/", RoomViewSet.as_view({'delete': 'delete_room'}),
                                                    name='room-detail'),

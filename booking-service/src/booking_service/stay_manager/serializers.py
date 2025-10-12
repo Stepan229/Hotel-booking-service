@@ -17,6 +17,11 @@ class RoomSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ['id', 'created_at']
 
+    def validate_price(self, value):
+        if value < 0:
+            raise serializers.ValidationError("Price must be a non-negative value.")
+        return value
+
     # def create(self, validated_data):
     #     print('Hotel: ', type(validated_data['hotel']))
     #     room = RoomCatalog.objects.create(room_description=validated_data['room_description'], 
