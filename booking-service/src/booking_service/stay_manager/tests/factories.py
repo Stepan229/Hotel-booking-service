@@ -1,5 +1,4 @@
 
-import factory
 from factory.declarations import LazyFunction, SubFactory
 from django.utils import timezone
 from factory.django import DjangoModelFactory

@@ -1,11 +1,8 @@
-import pytest
 
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 from ..models import HotelCatalog, RoomCatalog, RoomBooking
 from .factories import HotelCatalogFactory, RoomCatalogFactory, RoomBookingFactory
-import datetime
-from django.utils import timezone
 
 
 

@@ -1,8 +1,6 @@
-import pytest
 from django.test import TestCase
-from rest_framework.exceptions import ValidationError
 from stay_manager.serializers import HotelSerializer, RoomSerializer, RoomBookingSerializer
-from .factories import HotelCatalogFactory, RoomCatalogFactory, RoomBookingFactory
+from .factories import HotelCatalogFactory, RoomCatalogFactory
 
 class TestHotelSerializer(TestCase):
     def test_hotel_serializer_valid_data(self):
