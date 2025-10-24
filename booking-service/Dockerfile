@@ -6,7 +6,6 @@ LABEL authors="sskry"
 
 WORKDIR /app
 COPY poetry.lock pyproject.toml ./
-# COPY README.md ./s
 
 RUN python -m pip install --no-cache-dir poetry==2.2.1 \
     && poetry config virtualenvs.in-project true \
@@ -16,8 +15,33 @@ RUN python -m pip install --no-cache-dir poetry==2.2.1 \
 
 FROM python:3.13-alpine3.21
 
+WORKDIR /app
 
 COPY --from=builder /app /app
 
-COPY /src /app
+COPY ./src /app
 
+ENV PATH="/app/.venv/bin:$PATH"
+# # ???????????????????????
+
+# FROM python:3.13 AS builder
+# LABEL authors="sskry"
+
+# WORKDIR /app
+# COPY poetry.lock pyproject.toml ./
+
+# # RUN pip install --no-cache-dir poetry==2.2.1 && \
+# #     poetry config virtualenvs.in-project true && \
+# #     poetry install --no-interaction --no-ansi --no-root
+
+
+# RUN pip install requests
+
+
+# FROM python:3.13
+# WORKDIR /app
+# COPY --from=builder /app /app
+# COPY ./src /app
+# ENV PATH="/app/.venv/bin:$PATH"
+
+# CMD ["sh", "-c", "python booking_service/manage.py migrate && python booking_service/manage.py runserver 0.0.0.0:8000"]

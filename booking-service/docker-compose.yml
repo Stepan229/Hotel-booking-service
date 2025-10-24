@@ -3,6 +3,10 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
+            args:
+                - HTTP_PROXY=${HTTP_PROXY}
+                - HTTPS_PROXY=${HTTPS_PROXY}
+        
         ports:
             - "8000:8000"
         # volumes:
@@ -19,11 +23,12 @@ services:
         #    sh -c "ls -a"
         #    sh -c "ls app/"
           #  sh -c "python app/booking_service/manage.py runserver"
-           sh -c "/app/.venv/bin/python /app/booking_service/manage.py migrate &&
-             /app/.venv/bin/python /app/booking_service/manage.py runserver 0.0.0.0:8000"
+           sh -c "/app/.venv/bin/python /app/manage.py migrate &&
+             /app/.venv/bin/python /app/manage.py runserver 0.0.0.0:8000"
             # sh -c "python manage.py migrate && daphne --verbosity 3 -b 0.0.0.0 -p 8000 social_network.asgi:application"
         depends_on:
             - database
+        # network_mode: "8.8.8.8"
 
     database:
         image: postgres:17.4-alpine

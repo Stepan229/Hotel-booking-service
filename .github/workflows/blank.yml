@@ -22,7 +22,7 @@ jobs:
       run: poetry install
     
     - name: Run Ruff
-      run: poetry run ruff check .
+      run: poetry run ruff check --fix
     
     - name: Run tests
       run: poetry run python manage.py test

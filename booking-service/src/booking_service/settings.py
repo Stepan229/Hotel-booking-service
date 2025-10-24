@@ -15,7 +15,7 @@ from pathlib import Path
 
 import os
 from dotenv import load_dotenv
-dotenv_path = os.path.join(Path(__file__).resolve().parents[3], '.env')
+dotenv_path = os.path.join(Path(__file__).resolve().parents[2], '.env')
 print(dotenv_path, 'aAAAAAAAAAAAAAAAAAA')
 
 if os.path.exists(dotenv_path):

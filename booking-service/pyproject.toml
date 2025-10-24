@@ -27,3 +27,13 @@ packages = [{include = "booking_service", from = "src"}]
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "booking_service.settings"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+addopts = ["--verbose", "--strict-markers"]
+markers = [
+    "slow: slow running tests",
+    "integration: integration tests", 
+    "api: API tests"
+]
