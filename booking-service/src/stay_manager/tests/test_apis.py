@@ -8,8 +8,6 @@ from rest_framework.test import APIClient
 from datetime import date, timedelta
 
 class TestHotelAPIs(TestCase):
-    # НЕ используем @pytest.mark.django_db
-    # НЕ используем фикстуры
     
     def setUp(self):
         # Создаем клиент вручную
@@ -166,7 +164,6 @@ class TestBookingAPIs(TestCase):
         test_cases = [
             # (url_name, kwargs, method, data, query_params, expected_status, expected_message)
             
-            # GET /bookings/list/ - ошибки получения списка
             ('booking-list-reservations', {}, 'get', {}, {}, 
              status.HTTP_404_NOT_FOUND, 'No reservations found for the specified room.'),
             

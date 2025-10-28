@@ -10,13 +10,13 @@ import datetime
 fake =Faker()
 
 class HotelCatalogFactory(DjangoModelFactory):
-    class Meta:
+    class Meta: # type: ignore
         model = HotelCatalog
 
     name_hotel = LazyFunction(lambda: fake.company())
 
 class RoomCatalogFactory(DjangoModelFactory):
-    class Meta:
+    class Meta: # type: ignore
         model = RoomCatalog
 
     room_description = LazyFunction(lambda: fake.text(max_nb_chars=500))
@@ -25,7 +25,7 @@ class RoomCatalogFactory(DjangoModelFactory):
     created_at = LazyFunction(timezone.now)
 
 class RoomBookingFactory(DjangoModelFactory):
-    class Meta:
+    class Meta: # type: ignore
         model = RoomBooking
 
     room = SubFactory(RoomCatalogFactory)
