@@ -6,7 +6,7 @@ description = ""
 authors = [
     {name = "daughted"}
 ]
-readme = "README.md"
+
 requires-python = ">=3.10"
 dependencies = [
     "django (>=5.2.7,<6.0.0)",
