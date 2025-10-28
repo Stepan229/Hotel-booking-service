@@ -1,7 +1,7 @@
 
 from django.core.exceptions import ValidationError
 from django.test import TestCase
-from ..models import HotelCatalog, RoomCatalog, RoomBooking
+from stay_manager.models import HotelCatalog, RoomCatalog, RoomBooking
 from .factories import HotelCatalogFactory, RoomCatalogFactory, RoomBookingFactory
 
 
@@ -29,7 +29,7 @@ class TestRoomCatalogModel(TestCase):
         room = RoomCatalogFactory()
         self.assertEqual(str(room.pk), str(room.pk))
 
-    def test_room_price_positive(self):
+    def test_room_price_negative(self):
         with self.assertRaises(ValidationError):
             room = RoomCatalogFactory(price=-100)
             room.full_clean()

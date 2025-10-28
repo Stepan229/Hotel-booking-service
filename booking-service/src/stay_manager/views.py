@@ -8,7 +8,30 @@ from . import serializers
 from .utils import sorted_by_field, delete_entity_by_id 
 
 
+class HotelViewSet(viewsets.GenericViewSet):
+    queryset = HotelCatalog.objects.all()
 
+    permission_classes = [AllowAny, ]
+    serializer_class = serializers.HotelSerializer
+
+    def list(self, request, *args, **kwargs):
+        hotels = self.get_queryset()
+        data = self._get_hotel_data(hotels)
+        if not data:
+            return Response("No hotels found.",
+                            status=status.HTTP_404_NOT_FOUND)
+        return Response(data=data, status=status.HTTP_200_OK)
+
+    def _get_hotel_data(self, hotels):
+        serializer = self.get_serializer(hotels, many=True)
+        return serializer.data
+    
+    @action(methods=['POST', ], detail=False)
+    def create_hotel(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'id': serializer.data['id']}, status=status.HTTP_201_CREATED)
 
 class RoomViewSet(viewsets.GenericViewSet):
     queryset = RoomCatalog.objects.all()
@@ -48,7 +71,7 @@ class RoomViewSet(viewsets.GenericViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data['id'], status=status.HTTP_201_CREATED)
+        return Response({'id': serializer.data['id']}, status=status.HTTP_201_CREATED)
 
 
     @action(methods=['Delete', ], detail=False)

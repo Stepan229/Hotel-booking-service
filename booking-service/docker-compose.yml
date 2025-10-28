@@ -13,9 +13,9 @@ services:
         #     -   ./app:/app
         environment:
             DB_HOST: database
-            DB_NAME: db_booking_service
-            DB_USER: postgres
-            DB_PASSWORD: 30062001
+            DB_NAME: ${DB_NAME}
+            DB_USER: ${DB_USER}
+            DB_PASSWORD: ${DB_PASSWORD}
             DB_PORT: 5432
             
         command:
@@ -35,6 +35,6 @@ services:
         ports:
             - "5434:5432"
         environment:
-            POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: 30062001
-            POSTGRES_DB: db_booking_service
+            POSTGRES_USER: ${DB_USER}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: ${DB_NAME}
