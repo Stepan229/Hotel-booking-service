@@ -1,0 +1,41 @@
+services:
+    booking-service-app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+            args:
+                - HTTP_PROXY=${HTTP_PROXY}
+                - HTTPS_PROXY=${HTTPS_PROXY}
+        
+        ports:
+            - "8000:8000"
+
+        environment:
+            DB_HOST: database
+            DB_NAME: ${DB_NAME}
+            DB_USER: ${DB_USER}
+            DB_PASSWORD: ${DB_PASSWORD}
+            DB_PORT: 5432
+            
+        command:
+           sh -c "/app/.venv/bin/python /app/manage.py migrate &&
+             /app/.venv/bin/python /app/manage.py runserver 0.0.0.0:8000"
+        depends_on:
+            - database
+        # network_mode: "8.8.8.8"
+
+    database:
+        image: postgres:17.4-alpine
+        ports:
+            - "5434:5432"
+        environment:
+            POSTGRES_USER: ${DB_USER}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: ${DB_NAME}
+
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+            - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+
+volumes:
+    postgres_data:
